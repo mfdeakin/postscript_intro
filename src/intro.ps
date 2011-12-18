@@ -1,0 +1,79 @@
+%Define the number of points per inch
+/ppi 72 def
+%Define a procedure to convert from points to inches
+/in {ppi mul} def
+
+%Create a triangle
+newpath
+2 in 2 in moveto
+4 in 2 in lineto
+4 in 4 in lineto
+closepath
+%Define parameters for drawing the triangle
+10 setlinewidth
+%0.0 is black, 1.0 is white
+0.8 setgray
+%Draw the triangle
+fill
+%And create a page with the triangle
+showpage
+
+%Set up our font!
+/Times-Roman findfont
+1 in scalefont
+setfont
+%Create our text
+1 in 7 in moveto
+0.3 setgray
+%Add it to the page
+(My Text ) show
+%Create a new page with the text
+showpage
+
+%Move the origin
+1 in 10 in translate
+%Flip everything over the x axis
+1 -1.8 scale
+%Rotation changes after 45, 135, and 180 degrees...
+%Rotation is also additive
+45 rotate
+0 rotate
+%Test our changes
+1 in 1 in moveto
+(Testing) show
+showpage
+
+/neg { -1 mul } def
+
+/staredge { 36 sin in
+	    1 35 sin neg add in
+	    rlineto
+	    36 sin in
+	    -1 35 sin add in
+	    rlineto
+	    72 rotate
+} def
+%Draw a star!!!
+%Here's the center
+2 in 5 in translate
+
+newpath
+-36 sin in
+36 cos in
+moveto
+
+2 2 scale
+
+5 {staredge} repeat
+closepath
+%Save the star so we don't have to draw it again
+gsave
+0.0 1.0 0.0 setrgbcolor
+%Always fill before stroking
+fill
+%Get our star back!
+grestore
+1.0 0.0 0.0 setrgbcolor
+%Now we stroke
+stroke
+showpage
