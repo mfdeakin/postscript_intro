@@ -18,15 +18,25 @@ fill
 %And create a page with the triangle
 showpage
 
+/vpos 7 in def
+/newl { /vpos vpos 1 in sub def
+	1 in vpos moveto
+} def
+
 %Set up our font!
-/Times-Roman findfont
+/Helvetica findfont
 1 in scalefont
 setfont
 %Create our text
-1 in 7 in moveto
+1 in vpos moveto
 0.3 setgray
-%Add it to the page
-(My Text ) show
+%Define our string
+(My Text) show
+newl
+1 in vpos moveto
+3.14159256 20 string cvs show
+%Add them to the page
+
 %Create a new page with the text
 showpage
 
@@ -69,11 +79,22 @@ closepath
 %Save the star so we don't have to draw it again
 gsave
 0.0 1.0 0.0 setrgbcolor
-%Always fill before stroking
+%Fill before stroking unless we want the fill covering the stroke
 fill
+
+newpath
+%Center of the circle
+0.2935 in 1.21425 in
+%Radius of the circle
+1 35 sin sub 36 cos add in 0.822 mul
+%Full circle
+0 360
+0.0 0.0 0.0 setrgbcolor
+arc stroke
+
 %Get our star back!
 grestore
 1.0 0.0 0.0 setrgbcolor
-%Now we stroke
+%Now we stroke so that we get the full outline
 stroke
 showpage
