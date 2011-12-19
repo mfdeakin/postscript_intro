@@ -3,6 +3,18 @@
 %Define a procedure to convert from points to inches
 /in {ppi mul} def
 
+%Set the page size
+%letter and a4 are good defaults
+%Presets:
+%letter
+%a4
+%a3
+%legal
+%ledger
+%tabloid
+%Custom size:
+<< /PageSize [4 in 4 in] >> setpagedevice
+
 %Create a triangle
 newpath
 2 in 2 in moveto
@@ -17,6 +29,8 @@ closepath
 fill
 %And create a page with the triangle
 showpage
+
+<< /PageSize [5 in 8 in] >> setpagedevice
 
 /vpos 7 in def
 /newl { /vpos vpos 1 in sub def
@@ -40,11 +54,14 @@ newl
 %Create a new page with the text
 showpage
 
+<< /PageSize [4 in 7.5 in] >> setpagedevice
+
 %Move the origin
 1 in 10 in translate
 %Flip everything over the x axis
 1 -1.8 scale
 %Rotation changes after 45, 135, and 180 degrees...
+%I'm pretty sure this is a problem with the pdf, not PS
 %Rotation is also additive
 45 rotate
 0 rotate
@@ -52,6 +69,8 @@ showpage
 1 in 1 in moveto
 (Testing) show
 showpage
+
+<< /PageSize [5 in 10 in] >> setpagedevice
 
 /neg { -1 mul } def
 
