@@ -117,3 +117,85 @@ grestore
 %Now we stroke so that we get the full outline
 stroke
 showpage
+
+%Misc
+
+%Postscript is not far from the level of LISP when you can do things like the following:
+/savebuf 0 def
+/savelast {/savebuf exch def} def
+%This saves the last item on the stack into savebuf
+%Just call savebuf to get it back!
+%Used in implementing these functions, so it's not safe
+
+%Let's add some list functions!!! (So it's like LISP)
+
+%array el aprepend
+%Puts el in the front of the array
+/aprepend {
+	exch
+	aload
+	length 1 add array
+	astore
+} def
+
+%Does the same thing aprepend does but with executable arrays
+/aprependx {
+	prepend
+	cvx
+} def
+
+%array el append
+%Appends el to array
+/append {
+	savelast
+	aload
+	savebuf
+	exch
+	length 1 add array
+	astore
+} def
+
+%Does the same thing append does but with executable arrays
+/appendx {
+	append
+	cvx
+} def
+
+%array apop
+%Removes the last element from array and puts it on the stack
+/apop {
+	aload
+	exch
+	savelast
+	length 1 sub array
+	astore
+	savebuf
+} def
+
+%Does the same thing apop does but with executable arrays
+/apopx {
+	apop
+	cvx
+} def
+
+%array idx aslice
+%Creates two arrays out of one at idx (The element at idx is the beginning of the second array)
+/aslice {
+	savelast
+	aload
+	length
+	savebuf sub array
+	astore
+	savebuf
+	exch
+	savelast
+	array
+	astore
+	savebuf
+} def
+
+%Does the same thing aslice does but with executable arrays
+/aslicex {
+	aslice
+	cvx
+} def
