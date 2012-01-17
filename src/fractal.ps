@@ -1,0 +1,71 @@
+%Define the number of points per inch
+/ppi 72 def
+%Define a procedure to convert from points to inches
+/in {ppi mul} def
+
+%Set the page size
+%letter and a4 are good defaults
+%Presets:
+%letter
+%a4
+%a3
+%legal
+%ledger
+%tabloid
+%Custom size:
+<< /PageSize [4 in 4 in] >> setpagedevice
+
+%Define the max depth
+/maxdepth 10 def
+%Define the current depth
+/depth 0 def
+%Go down/up a depth
+/incdepth {/depth depth 1 add def} def
+/decdepth {/depth depth 1 sub def} def
+
+%Define how the fractal is constructed
+/fractal {	1 3 div in 60 sin 2 mul 3 div in rlineto
+		currentpoint
+		stroke
+		gsave
+		translate
+		60 rotate
+		0 0 moveto
+		1 3 div 1 3 div scale
+		incdepth
+		depth maxdepth le
+		{fractalcomp} if
+		grestore
+		2 3 div in 60 sin 4 mul 3 div in moveto
+		1 3 div in 60 sin 2 mul 3 div in rlineto
+		currentpoint
+		currentpoint
+		stroke
+		moveto
+		1 3 div in 60 sin -2 mul 3 div in rlineto
+		currentpoint
+		stroke
+		gsave
+		translate
+		120 rotate
+		0 0 moveto
+		-1 3 div -1 3 div scale
+		depth maxdepth le
+		{fractalcomp} if
+		grestore
+		decdepth
+		moveto
+		1 3 div in 60 sin -2 mul 3 div in rmoveto
+		1 3 div in 60 sin -2 mul 3 div in rmoveto
+		1 3 div in 60 sin -2 mul 3 div in rlineto
+		stroke
+		} def
+
+1 in 1 in translate
+0 0 moveto
+fractal
+0 0 moveto
+2 in 0 lineto
+stroke
+showpage
+
