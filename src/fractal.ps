@@ -13,59 +13,88 @@
 %ledger
 %tabloid
 %Custom size:
-<< /PageSize [4 in 4 in] >> setpagedevice
+<< /PageSize [14 in 12 in] >> setpagedevice
 
 %Define the max depth
-/maxdepth 10 def
+/maxdepth 12 def
 %Define the current depth
 /depth 0 def
 %Go down/up a depth
 /incdepth {/depth depth 1 add def} def
 /decdepth {/depth depth 1 sub def} def
 
+/trix   {1 3 div in} def
+/triy	{60 sin 2 mul 3 div in} def
+/trivec {trix triy} def
+
 %Define how the fractal is constructed
-/fractal {	1 3 div in 60 sin 2 mul 3 div in rlineto
-		currentpoint
+/fractal {	trivec rlineto
 		stroke
-		gsave
-		translate
-		60 rotate
-		0 0 moveto
-		1 3 div 1 3 div scale
+		trivec moveto
+		trivec rmoveto
+		trivec rlineto
+		stroke
 		incdepth
-		depth maxdepth le
-		{fractalcomp} if
-		grestore
-		2 3 div in 60 sin 4 mul 3 div in moveto
-		1 3 div in 60 sin 2 mul 3 div in rlineto
-		currentpoint
-		currentpoint
-		stroke
-		moveto
-		1 3 div in 60 sin -2 mul 3 div in rlineto
-		currentpoint
-		stroke
+		depth maxdepth lt
 		gsave
-		translate
-		120 rotate
-		0 0 moveto
-		-1 3 div -1 3 div scale
-		depth maxdepth le
-		{fractalcomp} if
-		grestore
+		{
+		    currentlinewidth 3 mul setlinewidth
+		    trivec translate
+		    0 0 moveto
+		    1 3 div 1 3 div scale
+		    60 rotate
+		    fractal
+		    3 3 scale
+		    trivec translate
+		    0 0 moveto
+		    -1 3 div -1 3 div scale
+		    60 rotate
+		    fractal
+		}
+		{
+		    trivec moveto
+		    trivec rlineto
+		}
+		ifelse
 		decdepth
-		moveto
-		1 3 div in 60 sin -2 mul 3 div in rmoveto
-		1 3 div in 60 sin -2 mul 3 div in rmoveto
-		1 3 div in 60 sin -2 mul 3 div in rlineto
-		stroke
+		grestore
 		} def
 
-1 in 1 in translate
+10.5 in 0.25 in translate
+90 rotate
+0.1 setlinewidth
+gsave
+5.8 5.8 scale
+0 0 moveto
+gsave
+fractal
+6 trix mul 0 translate
+-1 1 scale
 0 0 moveto
 fractal
+grestore
+1 -1 scale
+300 rotate
+fractal
+
+grestore
+60 cos 279 mul 60 sin 279 mul translate
+330 cos 140 mul 330 sin 140 mul translate
+gsave
+5.8 3 div 5.8 3 div scale
 0 0 moveto
-2 in 0 lineto
-stroke
+0.1 setlinewidth
+gsave
+fractal
+6 trix mul 0 translate
+-1 1 scale
+0 0 moveto
+fractal
+grestore
+1 -1 scale
+300 rotate
+fractal
+
+
 showpage
 
